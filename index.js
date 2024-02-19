@@ -173,11 +173,12 @@ renderAllMoves(allMovies , moviesWrapper)
 searchInput.addEventListener("input" , (el) => {
     let searchMovis = el.target.value;
     let foundMovis = allMovies.filter((el) => el.title.toLowerCase().includes(searchMovis.toLowerCase()));
-    renderAllMoves(foundMovis , moviesWrapper)
+    if(foundMovis.length){
+        renderAllMoves(foundMovis , moviesWrapper)
+    }else{
+        moviesWrapper.innerHTML=`<h1 class="text-red-600 text-[32px] w-full ">Siz qidirgan malumot topilmadi !!</h1>`
+    }
 })
-
-
-
 
 //--------------------------------TANLANGAN FILIMLR----------------
 
