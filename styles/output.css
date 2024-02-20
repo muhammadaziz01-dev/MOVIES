@@ -847,7 +847,7 @@ video {
   align-items: center;
 }
 
-/* ----Loader style---- */
+/* ----Loader style card wrapper---- */
 
 .loader {
   width: 88px;
@@ -887,14 +887,14 @@ video {
   }
 }
 
-/* toaster stely start */
+/*------ toaster style start------ */
 
 .toaster{
   position: fixed;
   top: 80px;
   right: 10px;
   z-index: 99999999;
-  width: 300px;
+  width: 350px;
   height: 60px;
   display: flex;
   border-radius: 16px;
@@ -912,7 +912,7 @@ video {
   transform: translateX(0);
   animation-name: animatyToster;
   animation-fill-mode: backwards;
-  animation-duration: 0.7s;
+  animation-duration: 0.8s;
   animation-iteration-count: 1;
 }
 
@@ -936,14 +936,14 @@ video {
 
 .shov2{
   transform: translateX(0);
-  animation-name: animatyToster2;
+  animation-name: animatyTosterDElet;
   animation-fill-mode: backwards;
   animation-duration: 0.7s;
   animation-iteration-count: 1;
-  background: #FF3D00 !important;
+  background: #FF3D00;
 }
 
-@keyframes animatyToster2{
+@keyframes animatyTosterDElet{
   0%{
     transform: translateX(100%);
     background: rgb(132,36,9);
@@ -956,6 +956,69 @@ video {
     background: linear-gradient(220deg, rgba(132,36,9,0.9781162464985994) 0%, rgba(245,95,54,0.9921218487394958) 45%, rgba(255,167,220,1) 99%);
   }
 }
+
+/*------ toaster style end------ */
+
+/*------Loader  style start------ */
+
+body{
+  position: relative;
+}
+
+.load_wrapper{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff82;
+  z-index: 9999999999;
+  -webkit-backdrop-filter: blur(8px);
+          backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: start;
+  padding-left: 300px;
+  padding-top: 200px;
+  display: none;
+}
+
+.loader {
+  width: 108px;
+  height: 108px;
+  border-radius: 50%;
+  display: inline-block;
+  border-top: 8px solid #1cb719;
+  border-right: 8px solid transparent;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  margin-left: 0px;
+}
+
+.loader::after {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 108px;
+  height: 108px;
+  border-radius: 50%;
+  border-left: 8px solid #FF3D00;
+  border-bottom: 8px solid transparent;
+  animation: rotation 0.5s linear infinite reverse;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/*------Loader style  end------ */
 
 .hover\:scale-\[120\%\]:hover {
   --tw-scale-x: 120%;

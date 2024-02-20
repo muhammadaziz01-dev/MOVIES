@@ -2,7 +2,7 @@
 //--MOVIES DATA MINIMAL---
 movies.splice(100);
 
-//-----------------------HTML Elamentlari tanlab olingan----------------------
+//-----------------------SELECT HTML ELEMENT START----------------------
 
 let selectCategory = $("#category");
 let searchName = $("#name");
@@ -22,7 +22,10 @@ let p = $$("p");
 let searchMoviesTaitil = $("#search-movies");
 
 let toastElement = $('.toaster');
-let toastMessege = $('.toaster-titil')
+let toastMessege = $('.toaster-titil');
+let toastIcons = $(".toaster-icon");
+//-----------------------SELECT HTML ELEMENT END----------------------
+
 
 
 
@@ -33,6 +36,7 @@ let changMovies = JSON.parse(localStorage.getItem("movies")) || [];
 
 
 let tanlanganFillimlar =[];
+//--------------------------GLABAL VERAYBLIS END------------------
 
 
 
@@ -89,6 +93,27 @@ darcModeBtn.onclick = function () {
 
 
 
+//------------------ LOADER START -------------------------
+let loadWrapper = $('.load_wrapper');
+
+window.addEventListener('DOMContentLoaded',()=>{
+    loadWrapper.style.display = 'flex';
+    document.body.style.overflow="hidden";
+});
+
+window.addEventListener('load',()=>{
+
+    loadWrapper.style.display = 'none';
+    document.body.style.overflow="visible";
+
+});
+//------------------ LOADER START -------------------------
+
+
+
+
+
+
 
 
 //----------------------NARMALAEZ DATA START-----------------------------
@@ -108,6 +133,8 @@ const allMovies = movies.map((el) => {
     }
 })
 //----------------------NARMALAEZ DATA END-----------------------------
+
+
 
 
 
@@ -145,8 +172,8 @@ getCotigory(allMovies)
 
 
 
-//--------------------------RENDER COTEGORY START---------
 
+//--------------------------RENDER COTEGORY START---------
 categoryData.sort().forEach((el)=>{
    let categorOption = creatElement("option", "", el);
    selectCategory.appendChild(categorOption);
@@ -161,8 +188,8 @@ categoryData.sort().forEach((el)=>{
 
 
 
-//------------------REDER ALL MOVIES  (DINAMIC CARD) START----------------
 
+//------------------REDER ALL MOVIES  (DINAMIC CARD) START----------------
 function renderAllMoves(data , tagWrapper) {
     tagWrapper.innerHTML= ""
     if(data.length){
@@ -294,12 +321,12 @@ moviesWrapper.addEventListener("click", (e)=>{
      let titilFilm = allMovies.filter((el)=>el.id === id)[0].title;
      if(!tanlanganFillimlar.includes(titilFilm)){
         tanlanganFillimlar.push(titilFilm);
-        toast('success', `${titilFilm.slice(0,16)+'...'} film added`, 2000 );
+        toast('success', `${titilFilm.slice(0,21)+'...'} film added`, 1500 );
         // btn.style.backgroundColor="red"
         // btn.style.color="#FFF"
      }else{
         tanlanganFillimlar = tanlanganFillimlar.filter((el) =>el !== titilFilm)
-        toast('arrov', `${titilFilm.slice(0,16)+'...'} film  deleted`, 2000 )
+        toast('arrov', `${titilFilm.slice(0,21)+'...'} film  delet`, 1500 )
         // btn.style.backgroundColor="#FFF"
         // btn.style.color="red"
      }
@@ -311,6 +338,7 @@ moviesWrapper.addEventListener("click", (e)=>{
 function toast(type, message, timeout) {
    toastMessege.innerHTML=message;
    if(type=="success"){
+    toastIcons.innerHTML=`<i class="bi bi-check2-all"></i>`
     toastElement.classList.remove('hov');
     toastElement.classList.add('shov');
     setTimeout(()=>{
@@ -318,6 +346,7 @@ function toast(type, message, timeout) {
         toastElement.classList.add('hov');
     },timeout)
    }else if(type=="arrov") {
+    toastIcons.innerHTML=`<i class="bi bi-x-octagon"></i>`
     toastElement.classList.remove('hov');
     toastElement.classList.add('shov2');
     setTimeout(()=>{
@@ -334,7 +363,7 @@ function toast(type, message, timeout) {
 
 
 
-
+//<i class="bi bi-x-octagon"></i>   <i class="bi bi-check2-all"></i>
 
 
 
