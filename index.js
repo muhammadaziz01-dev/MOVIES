@@ -5,33 +5,42 @@ movies.splice(100);
 //-----------------------HTML Elamentlari tanlab olingan----------------------
 
 let selectCategory = $("#category");
+let searchName = $("#name");
+let filmRating= $("#number");
+let formFilter = $("#filter-form");
 
 let moviesWrapper = $(".movies");
-
 let searchInput = $("#search-input");
-
+//--darc
 let darcModeBtn = $("#darcmode-btn");
-
 let header =$("header");
-
 let aside =$("#aside");
-
 let inputs = $$ ("input");
-
 let footer = $("footer");
-
 let p = $$("p");
 
+let searchMoviesTaitil = $("#search-movies");
 
-//--------------------------GLABAL O'zgaruvchilar------------------
+
+
+
+//--------------------------GLABAL VERAYBLIS START------------------
 let  categoryData = [];
 
 let changMovies = JSON.parse(localStorage.getItem("movies")) || [];
 
-//---------------------------DARC MODE---------------------
 
+
+
+
+
+
+
+
+
+
+//---------------------------DARC MODE START---------------------
  let isDarkMode = false;
-
 darcModeBtn.onclick = function () {
     if (isDarkMode==false){
         darcModeBtn.innerHTML=`<i class="bi bi-sun-fill"></i>`;
@@ -72,9 +81,16 @@ darcModeBtn.onclick = function () {
     }
     isDarkMode = !isDarkMode;
 }
+//---------------------------DARC MODE END---------------------
 
 
-//----------------------NARMALAEZ DATA-----------------------------
+
+
+
+
+
+
+//----------------------NARMALAEZ DATA START-----------------------------
 const allMovies = movies.map((el) => {
     return{
         title: el.title,
@@ -90,13 +106,16 @@ const allMovies = movies.map((el) => {
         maxImage: el.bigThumbnail
     }
 })
-
-console.log(allMovies);
-
+//----------------------NARMALAEZ DATA END-----------------------------
 
 
-//--------------------MOVIES COTIGORY------
 
+
+
+
+
+
+//--------------------MOVIES COTIGORY START------
 function getCotigory(data) {
     
 
@@ -113,19 +132,35 @@ function getCotigory(data) {
         });
     }
 }
-
 getCotigory(allMovies)
+//--------------------MOVIES COTIGORY END------
 
 
 
-//--------------------------RENDER COTEGORY---------
+
+
+
+
+
+
+
+//--------------------------RENDER COTEGORY START---------
 
 categoryData.sort().forEach((el)=>{
    let categorOption = creatElement("option", "", el);
    selectCategory.appendChild(categorOption);
 })
+//--------------------------RENDER COTEGORY END---------
 
-//------------------REDER ALL MOVIES  (DINAMIC CARD)----------------
+
+
+
+
+
+
+
+
+//------------------REDER ALL MOVIES  (DINAMIC CARD) START----------------
 
 function renderAllMoves(data , tagWrapper) {
     tagWrapper.innerHTML= ""
@@ -164,32 +199,98 @@ function renderAllMoves(data , tagWrapper) {
     }
     
 }
-
 renderAllMoves(allMovies , moviesWrapper)
+//------------------REDER ALL MOVIES  (DINAMIC CARD) END----------------
 
 
-//-------------------------SEARCH INPUT HEADER----------------
 
-searchInput.addEventListener("input" , (el) => {
-    let searchMovis = el.target.value;
-    let foundMovis = allMovies.filter((el) => el.title.toLowerCase().includes(searchMovis.toLowerCase()));
-    if(foundMovis.length){
-        renderAllMoves(foundMovis , moviesWrapper)
+
+
+
+
+
+
+//-------------------------SEARCH INPUT HEADER START----------------
+function searchMovies(searchTerm) {
+    const searchResult = allMovies.filter((el)=> el.title.toLowerCase().includes(searchTerm.toLowerCase()));
+    if(searchResult.length){
+        searchMoviesTaitil.innerHTML=`${searchResult.length}   movies found`
+        renderAllMoves(searchResult , moviesWrapper)
     }else{
-        moviesWrapper.innerHTML=`<h1 class="text-red-600 text-[32px] w-full ">Siz qidirgan malumot topilmadi !!</h1>`
+        searchMoviesTaitil.innerHTML=''
+        moviesWrapper.innerHTML=`
+        <h1 class="text-red-600 text-[32px] w-[700px] relative top-[200px] left-[300px] ">The movie you searched for was not found !!</h1>
+        `
+    }
+}
+
+searchInput.addEventListener("keyup", (e)=>{
+    
+    if(e.keyCode ==13){//inputda yozilganda faqat entirni bosganda ishlashligi ucun enter mi keycodi 13 ga teng
+        searchMoviesTaitil.innerHTML=''
+        moviesWrapper.innerHTML=`<span class="loader"></span>`
+        setTimeout(()=>{
+            searchMovies(e.target.value)
+        },1000)
     }
 })
+//-------------------------SEARCH INPUT HEADER START END----------------
+
+
+
+
+
+
+
+
+
+
+//-------------------------SEARCH FORM ASIDBAR START----------------
+function multiSearch() {
+     const name = searchName.value;
+     const reting = filmRating.value;
+     const cotigor = selectCategory.value;
+
+    console.log(name , reting , cotigor);
+    const searchResult = allMovies.filter((el)=> {
+        return el.title.toLowerCase().includes(name.toLowerCase()) && el.category.includes(cotigor) && el.rating >= reting;
+    });
+    if(searchResult.length){
+        searchMoviesTaitil.innerHTML=`${searchResult.length}   movies found`
+        renderAllMoves(searchResult , moviesWrapper)
+    }else{
+        searchMoviesTaitil.innerHTML=''
+        moviesWrapper.innerHTML=`
+        <h1 class="text-red-600 text-[32px] w-[700px] relative top-[200px] left-[300px] ">The movie you searched for was not found !!</h1>
+        `
+    }
+}
+formFilter.addEventListener("submit" ,(e)=>{
+    e.preventDefault();
+
+    searchMoviesTaitil.innerHTML=''
+    moviesWrapper.innerHTML=`<span class="loader"></span>`
+    
+    setTimeout(()=>{
+        multiSearch();
+    },1000)
+
+    
+})
+//-------------------------SEARCH FORM ASIDBAR END----------------
+
+
+
+
+
 
 //--------------------------------TANLANGAN FILIMLR----------------
 
 
-
-
-
-
 // moviesWrapper.addEventListener("click" , (el) => {
 //     let idName =el.target.id
-//     console.log(id);
+//     console.log(idName);
+
 //     let chengCard = allMovies.find((el)=>el.id === idName);
 //     changMovies = JSON.parse(localStorage.getItem("movies")) || [];
 //     if(!changMovies.find((el)=> el.id === idName)){

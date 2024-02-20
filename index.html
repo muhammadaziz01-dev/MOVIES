@@ -56,7 +56,7 @@
 
         <!-- ASIDE SECTION STARTED -->
         <aside id="aside" class="border min-h-screen fixed p-4 top-[90px] bg-white w-[320px] shadow-lg">
-            <form action="#">
+            <form action="#" id="filter-form">
                 <label for="name" class="my-6 block">
                     <p class="text-gray-500 mb-2">Enter film title:</p>
                     <input id="name" type="search" placeholder="Enter film title.." class="w-full border-red-500 border rounded-md
@@ -67,13 +67,13 @@
                     <select name="category" id="category" class="w-full border-red-500 border rounded-md h-[40px]
             focus:outline-none duration-150 focus:ring-red-600 ring-2 ring-
             red-100 px-4">
-                        <option disabled selected>Select film category</option>
+                        <option disabled selected value="">Select film category</option>
                         <!-- dynamic render -->
                     </select>
                 </label>
                 <label for="rating" class="my-6 block">
                     <p class="text-gray-500 mb-2">Select film rating:</p>
-                    <input id="name" type="number" max="10" min="1" placeholder="Enter film rating..." class="w-full border-red-500 border rounded-md h-[40px]
+                    <input id="number" type="number" max="10" min="1" placeholder="Enter film rating..." class="w-full border-red-500 border rounded-md h-[40px]
                     px-3 focus:outline-none duration-150 focus:ring-red-600 ring-2 ring-
                     red-100" />
                 </label>
@@ -89,6 +89,9 @@
 
         <!-- SECTION-1 STARTED -->
         <section id="movies" class="grow ml-[320px] p-8">
+            <h1 id="search-movies" class="text-3xl font-bold text-red-600 my-5">
+                <!--search-movies data length ko'rsatuvchi rag  -->
+            </h1>
             <div class="grid sm:grid-cols-2 grid-cols-1 md:grid-cols-4 movies gap-4"></div>
             <!-- dynamic render -->
             </div>
