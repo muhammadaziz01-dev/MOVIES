@@ -21,6 +21,8 @@ let p = $$("p");
 
 let searchMoviesTaitil = $("#search-movies");
 
+let toastElement = $('.toaster');
+let toastMessege = $('.toaster-titil')
 
 
 
@@ -30,8 +32,7 @@ let  categoryData = [];
 let changMovies = JSON.parse(localStorage.getItem("movies")) || [];
 
 
-
-
+let tanlanganFillimlar =[];
 
 
 
@@ -180,9 +181,10 @@ function renderAllMoves(data , tagWrapper) {
                   <div class="flex btn-wrappeer items-center gap-x-3">
                    
                       <button 
-                          id=${el.id}
-                          class="grid hover:bg-red-700 hover:text-white duration-500 text-red-700 place-content-center p-4 border w-12 h-12 rounded-full">
-                          <i class="bi bi-suit-heart-fill "></i>
+                          id="${el.id}"
+                          data-like=${el.id}
+                          class="liked grid hover:bg-red-700 hover:text-white duration-500 text-red-700 place-content-center p-4 border w-12 h-12 rounded-full">
+                          <i data-like=${el.id} class="liked bi bi-suit-heart-fill "></i>
                       </button>
 
                       <a href="${el.youtube}" target="_blank" class="flex hover:bg-black hover:text-white duration-500  justify-center gap-x-2 text-xl items-center border min-w-24 px-3 h-12 rounded-full"> 
@@ -284,23 +286,54 @@ formFilter.addEventListener("submit" ,(e)=>{
 
 
 
-//--------------------------------TANLANGAN FILIMLR----------------
+//-----------------------ADD TO WIHSLIST START-----------------------
+moviesWrapper.addEventListener("click", (e)=>{
+   if(e.target.classList.contains('liked')){
+     let id = e.target.getAttribute('data-like');
+    //  let btn = e.target.id
+     let titilFilm = allMovies.filter((el)=>el.id === id)[0].title;
+     if(!tanlanganFillimlar.includes(titilFilm)){
+        tanlanganFillimlar.push(titilFilm);
+        toast('success', `${titilFilm.slice(0,16)+'...'} film added`, 2000 );
+        // btn.style.backgroundColor="red"
+        // btn.style.color="#FFF"
+     }else{
+        tanlanganFillimlar = tanlanganFillimlar.filter((el) =>el !== titilFilm)
+        toast('arrov', `${titilFilm.slice(0,16)+'...'} film  deleted`, 2000 )
+        // btn.style.backgroundColor="#FFF"
+        // btn.style.color="red"
+     }
+   }
+})
+
+// console.log(tanlanganFillimlar);
+
+function toast(type, message, timeout) {
+   toastMessege.innerHTML=message;
+   if(type=="success"){
+    toastElement.classList.remove('hov');
+    toastElement.classList.add('shov');
+    setTimeout(()=>{
+        toastElement.classList.remove('shov');
+        toastElement.classList.add('hov');
+    },timeout)
+   }else if(type=="arrov") {
+    toastElement.classList.remove('hov');
+    toastElement.classList.add('shov2');
+    setTimeout(()=>{
+        toastElement.classList.remove('shov2');
+        toastElement.classList.add('hov');
+    },timeout)
+   }
+}
+
+//-----------------------ADD TO WIHSLIST END-----------------------
 
 
-// moviesWrapper.addEventListener("click" , (el) => {
-//     let idName =el.target.id
-//     console.log(idName);
 
-//     let chengCard = allMovies.find((el)=>el.id === idName);
-//     changMovies = JSON.parse(localStorage.getItem("movies")) || [];
-//     if(!changMovies.find((el)=> el.id === idName)){
-//         changMovies.push(chengCard);
-//         localStorage.setItem("movies" , JSON.stringify(changMovies))
-//     }else{
-//         alert("Bu filim avval tanlangan !");
-//     }
 
-// })
+
+
 
 
 
