@@ -9,7 +9,7 @@ let searchName = $("#name");
 let filmRating= $("#number");
 let formFilter = $("#filter-form");
 
-let moviesWrapper = $(".movies");
+let moviesWrapper = $(".likes-mowis-wrapper");
 let searchInput = $("#search-input");
 //--darc
 let darcModeBtn = $("#darcmode-btn");
@@ -32,6 +32,7 @@ let toastIcons = $(".toaster-icon");
 //--------------------------GLABAL VERAYBLIS START------------------
 let  categoryData = [];
 
+let tanlanganFillimlar = JSON.parse(localStorage.getItem("movies")) || [];
 
 
 //--------------------------GLABAL VERAYBLIS END------------------
@@ -139,6 +140,18 @@ const allMovies = movies.map((el) => {
 
 
 
+//------------------------TANLANGAN FILIMLARNI RENDERGA BERISH---------
+let tanlanganlar = allMovies.filter((el)=> tanlanganFillimlar.includes(el.id));
+renderAllMoves(tanlanganlar , moviesWrapper)
+
+
+
+
+
+
+
+
+
 
 
 //--------------------MOVIES COTIGORY START------
@@ -163,20 +176,14 @@ getCotigory(allMovies)
 
 
 
-
-
-
-
-
-
-
-
 //--------------------------RENDER COTEGORY START---------
 categoryData.sort().forEach((el)=>{
    let categorOption = creatElement("option", "", el);
    selectCategory.appendChild(categorOption);
 })
 //--------------------------RENDER COTEGORY END---------
+
+
 
 
 
@@ -209,7 +216,7 @@ function renderAllMoves(data , tagWrapper) {
                           id="${el.id}"
                           data-like=${el.id}
                           class="liked grid hover:bg-red-700 hover:text-white duration-500 text-red-700 place-content-center p-4 border w-12 h-12 rounded-full">
-                          <i data-like=${el.id} class="liked bi bi-suit-heart-fill "></i>
+                          <i data-like=${el.id} class="liked bi bi-trash-fill "></i>
                       </button>
 
                       <a href="${el.youtube}" target="_blank" class="flex hover:bg-black hover:text-white duration-500  justify-center gap-x-2 text-xl items-center border min-w-24 px-3 h-12 rounded-full"> 
@@ -226,8 +233,11 @@ function renderAllMoves(data , tagWrapper) {
     }
     
 }
-renderAllMoves(allMovies , moviesWrapper)
+// renderAllMoves(allMovies , moviesWrapper)
 //------------------REDER ALL MOVIES  (DINAMIC CARD) END----------------
+
+
+
 
 
 
@@ -239,7 +249,7 @@ renderAllMoves(allMovies , moviesWrapper)
 
 //-------------------------SEARCH INPUT HEADER START----------------
 function searchMovies(searchTerm) {
-    const searchResult = allMovies.filter((el)=> el.title.toLowerCase().includes(searchTerm.toLowerCase()));
+    const searchResult = tanlanganlar.filter((el)=> el.title.toLowerCase().includes(searchTerm.toLowerCase()));
     if(searchResult.length){
         searchMoviesTaitil.innerHTML=`${searchResult.length}   movies found`
         renderAllMoves(searchResult , moviesWrapper)
@@ -279,7 +289,7 @@ function multiSearch() {
      const cotigor = selectCategory.value;
 
     console.log(name , reting , cotigor);
-    const searchResult = allMovies.filter((el)=> {
+    const searchResult = tanlanganlar.filter((el)=> {
         return el.title.toLowerCase().includes(name.toLowerCase()) && el.category.includes(cotigor) && el.rating >= reting;
     });
     if(searchResult.length){
@@ -314,7 +324,6 @@ formFilter.addEventListener("submit" ,(e)=>{
 //-----------------------ADD TO WIHSLIST START-----------------------
 
 
-let tanlanganFillimlar = JSON.parse(localStorage.getItem("movies")) || [];
 
 moviesWrapper.addEventListener("click", (e)=>{
     
@@ -322,17 +331,16 @@ moviesWrapper.addEventListener("click", (e)=>{
       
      let id = e.target.getAttribute('data-like');
      let titilFilm = allMovies.filter((el)=>el.id === id)[0];
-     if(!tanlanganFillimlar.includes(titilFilm.id)){
-        tanlanganFillimlar.push(titilFilm.id);
-        toast('success', `${titilFilm.title.slice(0,21)+'...'} film added`, 1500 );
+     if(tanlanganFillimlar.includes(titilFilm.id)){
+        tanlanganFillimlar = tanlanganFillimlar.filter((el)=> el  !== titilFilm.id);
         localStorage.setItem("movies" , JSON.stringify(tanlanganFillimlar))
-      
-     }else{
-        toast('arrov', `${titilFilm.title.slice(0,21)+'...'} film  delet`, 1500 )
-        
+        tanlanganlar = allMovies.filter((el)=> tanlanganFillimlar.includes(el.id));
+        renderAllMoves(tanlanganlar, moviesWrapper)
+        toast('arrov', `${titilFilm.title.slice(0,15)+'...'} deleted`, 1500 )
      }
+
      
-   }
+    }
 })
 
 
@@ -348,7 +356,7 @@ function toast(type, message, timeout) {
         toastElement.classList.add('hov');
     },timeout)
    }else if(type=="arrov") {
-    toastIcons.innerHTML=`<i class="bi bi-x-octagon"></i>`
+    toastIcons.innerHTML=`<i class="bi bi-trash-fill"></i>`
     toastElement.classList.remove('hov');
     toastElement.classList.add('shov2');
     setTimeout(()=>{
@@ -360,17 +368,6 @@ function toast(type, message, timeout) {
 
 //-----------------------ADD TO WIHSLIST END-----------------------
 
-
-
-
-///------------------------------test render data to chench movis locolstorig
-
-function losolsorigMovis () {
-    let tanlanganlar = allMovies.filter((el)=> tanlanganFillimlar.includes(el.id));
-    console.log(tanlanganlar);
-}
-
-losolsorigMovis()
 
 
 

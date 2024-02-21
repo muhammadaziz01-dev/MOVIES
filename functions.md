@@ -1,50 +1,43 @@
-"use strict"
-//--MOVIES DATA MINIMAL---
-movies.splice(100);
+## Ishlatilgan funcsilaraga tarif 
 
-//-----------------------SELECT HTML ELEMENT START----------------------
+```
+function $(select) {
+    return document.querySelector(select);
+}
 
-let selectCategory = $("#category");
-let searchName = $("#name");
-let filmRating= $("#number");
-let formFilter = $("#filter-form");
-
-let moviesWrapper = $(".movies");
-let searchInput = $("#search-input");
-//--darc
-let darcModeBtn = $("#darcmode-btn");
-let header =$("header");
-let aside =$("#aside");
-let inputs = $$ ("input");
-let footer = $("footer");
-let p = $$("p");
-
-let searchMoviesTaitil = $("#search-movies");
-
-let toastElement = $('.toaster');
-let toastMessege = $('.toaster-titil');
-let toastIcons = $(".toaster-icon");
-//-----------------------SELECT HTML ELEMENT END----------------------
+function $$(select) {
+    return document.querySelectorAll(select);
+}
 
 
+```
+
+1. Ko'p takrorlanuvchi funcsiyalar , yani birhil ishni ko'p marotaba bajaruvchi funcsiyalarni biz utilis funcsiyalar deb ularni unversal holatga olib kelib olganmiz , yuqorida ko'rishligimiz mumkun elamentlarni tanlab olish jarayonini uchun bir funcsiyaga yozib olib uni unversal holatda ishbajara oladigan holtga keltirganmiz.   
+
+<hr>
 
 
-//--------------------------GLABAL VERAYBLIS START------------------
-let  categoryData = [];
+```
+function creatElement(tegName, clasName , htmlContent) {
+    let tag = document.createElement(tegName);
+    if(clasName){
+        tag.setAttribute('class', clasName);
+    }
 
+    if(htmlContent){
+        tag.innerHTML= htmlContent;
+    }
 
+    return tag
+}
+```
+2. Bu funksiyamiz ham yuqoridaginga o'hshash yani takrorlanuchchan ammalr uchun , bu funksiya yordamida , js  yordamida ihtiyori dinamic elament yartib olishligimiz mumkun , bu f o'ziga 3 argument olib ularga qiyamat sifatida 1 argumentga yaratmoqchi bo'lgan tag nomi kiritiladi 2 qiymat sifatida yaratmoqchi bo'lgan elamentimizga class nomi va ohirgi qiymatiga cantent yozishligimiz mumkun.
 
-//--------------------------GLABAL VERAYBLIS END------------------
+<hr>
 
-
-
-
-
-
-
-//---------------------------DARC MODE START---------------------
+```
  let isDarkMode = false;
-darcModeBtn.onclick = function () {
+ darcModeBtn.onclick = function () {
     if (isDarkMode==false){
         darcModeBtn.innerHTML=`<i class="bi bi-sun-fill"></i>`;
         document.body.style.transition = "ail 0.1s lener";
@@ -84,37 +77,35 @@ darcModeBtn.onclick = function () {
     }
     isDarkMode = !isDarkMode;
 }
-//---------------------------DARC MODE END---------------------
+```
 
+3. Darkmod ucun yozilgan funcsiya bu funcsiya va bundan kora yaqshirogini ustoz darsda yozib ko'rsatganlar (Eslatma : shuni yahshiroq o'rganib ol 🫡)
 
+<hr>
 
+```
 
+ let loadWrapper = $('.load_wrapper');
 
+ window.addEventListener('DOMContentLoaded',()=>{
+     loadWrapper.style.display = 'flex';
+     document.body.style.overflow="hidden";
+ });
 
-//------------------ LOADER START -------------------------
-// let loadWrapper = $('.load_wrapper');
+ window.addEventListener('load',()=>{
 
-// window.addEventListener('DOMContentLoaded',()=>{
-//     loadWrapper.style.display = 'flex';
-//     document.body.style.overflow="hidden";
-// });
+    loadWrapper.style.display = 'none';
+    document.body.style.overflow="visible";
 
-// window.addEventListener('load',()=>{
+ });
 
-//     loadWrapper.style.display = 'none';
-//     document.body.style.overflow="visible";
+```
 
-// });
-//------------------ LOADER START -------------------------
+4. yuqoridagi funcsiyani bajaradigan vazifasi biznig html sahifamiz to'liq yuklanib bolgungacha  ish  bajarib turadi yani sahifa to'liq yuklanib bo'lmagungacha foydalanuvchiga yuklanish jarayonida ekanligini ko'rsatib turadi va sahifa to'liq yuklanib bo'lgash o'z ishini yakunlaydi.
 
+<hr>
 
-
-
-
-
-
-
-//----------------------NARMALAEZ DATA START-----------------------------
+```
 const allMovies = movies.map((el) => {
     return{
         title: el.title,
@@ -130,18 +121,13 @@ const allMovies = movies.map((el) => {
         maxImage: el.bigThumbnail
     }
 })
-//----------------------NARMALAEZ DATA END-----------------------------
+```
 
+5. Yuqoridagi funcsiya narmalays funcsiya bo'lib  datani (map) yordamida biz istagan holatga keltirib olishimizga yordam beradi.
 
+<hr>
 
-
-
-
-
-
-
-
-//--------------------MOVIES COTIGORY START------
+```
 function getCotigory(data) {
     
 
@@ -159,35 +145,25 @@ function getCotigory(data) {
     }
 }
 getCotigory(allMovies)
-//--------------------MOVIES COTIGORY END------
+```
+
+6. Yuqoridagi funcsiya o'ziga qiymat sifatida data(yani malumotlar to'plami) oladi va uni tekshiradi agan sharttdan o'tsa  o'sha datani "forEach" yordamida alanadida catigoriyalarini biz yaratgan  o'zgaruvchiga ([]) qo'shib boradi , bu nafaqat catigoriyalarini balki boshqa qiymatlari bo'ychaham ham ishlashlik imkoni mavjut agar biroz o'zgarish kiritsak .
 
 
+<hr>
 
-
-
-
-
-
-
-
-
-//--------------------------RENDER COTEGORY START---------
+```
 categoryData.sort().forEach((el)=>{
    let categorOption = creatElement("option", "", el);
    selectCategory.appendChild(categorOption);
 })
-//--------------------------RENDER COTEGORY END---------
+```
 
+7. Bu funcsiya ham o'ziga biriktirilgan datani (forEach) yordamida aylanim chiqadi va yqoridagi  2-funcsiya yordamida harmir elament uchun etml elament yaratib tanlab olingan elament ichiga joylashtiradi.
 
+<hr>
 
-
-
-
-
-
-
-
-//------------------REDER ALL MOVIES  (DINAMIC CARD) START----------------
+```
 function renderAllMoves(data , tagWrapper) {
     tagWrapper.innerHTML= ""
     if(data.length){
@@ -227,17 +203,14 @@ function renderAllMoves(data , tagWrapper) {
     
 }
 renderAllMoves(allMovies , moviesWrapper)
-//------------------REDER ALL MOVIES  (DINAMIC CARD) END----------------
 
+```
 
+8. Bu funcsiyamizham yuqoridagi funcsiyaga ohshash bo'lin o'ziga ikkita qiymat oladi birinchi qiymat sifatida qandaydur data va ikkinchi qiymat sifatida bajarib bolingan natijani qaysi elament ichiga joylashligi kerakligini ko'rsatuvshi malumotni o'ziga oladi , bunda qiymat siftida berilgan datani (forEach) yordamida aylanim chiqadi va yqoridagi  2-funcsiya yordamida harmir elament uchun bittadan card yasaydi va o'ziga ikkinchi qiymat sifatida berilgan o'zgruvchiga joylab chiqadi
 
+<hr>
 
-
-
-
-
-
-//-------------------------SEARCH INPUT HEADER START----------------
+```
 function searchMovies(searchTerm) {
     const searchResult = allMovies.filter((el)=> el.title.toLowerCase().includes(searchTerm.toLowerCase()));
     if(searchResult.length){
@@ -261,18 +234,13 @@ searchInput.addEventListener("keyup", (e)=>{
         },1000)
     }
 })
-//-------------------------SEARCH INPUT HEADER START END----------------
+```
 
+9. Yuqoridagi ikki funcsiyamiz o'z aro bir biriga bogliq bo'lib birida iniputdan kiritgan malumotimizni olib olishligimiz ko'rsatilgan birida esa osha malumot yordamida yuqorida yaratib olgan dinamic cardlarimiz ichida biz olgan malumotimiz qatnashqanlarini izlayda topsa ularni rendirga beradi aksi bo'lsa malumot topilmaganligi haqida hamar beradi.
 
+<hr>
 
-
-
-
-
-
-
-
-//-------------------------SEARCH FORM ASIDBAR START----------------
+```
 function multiSearch() {
      const name = searchName.value;
      const reting = filmRating.value;
@@ -304,18 +272,13 @@ formFilter.addEventListener("submit" ,(e)=>{
 
     
 })
-//-------------------------SEARCH FORM ASIDBAR END----------------
+```
 
+10. Bu funcsiyamizni ham bajaradigan vazifasi yuqoridagi funcsiyamiz bilan diyarli birhil farqi , yuqoridagi funcsiyamizda faqatgin nomi boyicha izlagan bolsak bunda qatiyroq izlanadi yani ham nomi , catigoriyasi va retingi bo'yicha izlanadi.
 
+<hr>
 
-
-
-
-//-----------------------ADD TO WIHSLIST START-----------------------
-
-
-let tanlanganFillimlar = JSON.parse(localStorage.getItem("movies")) || [];
-
+```
 moviesWrapper.addEventListener("click", (e)=>{
     
    if(e.target.classList.contains('liked')){
@@ -334,7 +297,6 @@ moviesWrapper.addEventListener("click", (e)=>{
      
    }
 })
-
 
 
 function toast(type, message, timeout) {
@@ -357,20 +319,6 @@ function toast(type, message, timeout) {
     },timeout)
    }
 }
+```
 
-//-----------------------ADD TO WIHSLIST END-----------------------
-
-
-
-
-///------------------------------test render data to chench movis locolstorig
-
-function losolsorigMovis () {
-    let tanlanganlar = allMovies.filter((el)=> tanlanganFillimlar.includes(el.id));
-    console.log(tanlanganlar);
-}
-
-losolsorigMovis()
-
-
-
+11. Yuqoridagi funcsiyamiz nisabatan tushuntirishga murakkabroq bo'lib uni ishlash ketmaketligini tahlil qilib chiqsak valida "moviesWrapper" yani biz dinamic cardlarimiznig parent elamentini kuzatadi  unga click bo'lganda  bosilgan elamentinig claslar ro'yhatida "liked" bor bo'lganini qina oladi , so'ngra "getAttribute" yordamida esha elamentnig so'ralgan atribut qiymatini olib o'zgaruvchiga temnglaydi , songra osha qiymat biznig datamizdagi malumotlarnig yunik aydisiga teng bo'lsa o'shani "filter" yordamida oladi , va osha olingan malumotni idsi yuqorida elon qilingan elamentimiz "[]" ichida bor yo'qligini tekshiradi agar yo'q bo'lsa qoshadi va qoshilganligi haqida habar beruvchi boshqa bir funcsiyani yani "toast f" col qiladi va locolstorage ga ham buni qo'shib boradi , agar  yo'qligini elon qilingan elamentimiz "[]" ichida bor borbo'sa buhaqida ham habar beruvchi funcsiyani ishga tushuradi. 
