@@ -1,6 +1,6 @@
 "use strict"
 //--MOVIES DATA MINIMAL---
-movies.splice(100);
+movies.splice(40);
 
 //-----------------------SELECT HTML ELEMENT START----------------------
 
@@ -36,6 +36,7 @@ let changMovies = JSON.parse(localStorage.getItem("movies")) || [];
 
 
 let tanlanganFillimlar =[];
+
 //--------------------------GLABAL VERAYBLIS END------------------
 
 
@@ -197,7 +198,7 @@ function renderAllMoves(data , tagWrapper) {
             const card = creatElement('div', 'card', `
               <img src="${el.minImage}" alt="smth">
               <div class="card-body">
-                  <h2>${el.title.length > 20 ? el.title.substring(0,17)+"..." : el.title}</h2>
+                  <h2>${el.title.length > 20 ? el.title.substring(0,15)+"..." : el.title}</h2>
                   <ul>
                       <li><strong>Year:</strong> ${el.year}</li>
                       <li><strong>Categories:</strong>${el.category}</li>
@@ -330,6 +331,15 @@ moviesWrapper.addEventListener("click", (e)=>{
         // btn.style.backgroundColor="#FFF"
         // btn.style.color="red"
      }
+
+
+    //  let changFilms = allMovies.filter((el)=>el.id === id)[0].id;
+    //  changMovies = JSON.parse(localStorage.getItem("movies")) || [];
+    //  let aditFilm = allMovies.filter((el)=>el.id==changFilms)
+    //  if(!changMovies.find((el)=> el.id ==changFilms)){
+    //     changMovies.push(changFilms[0]);
+    //     localStorage.setItem("movies" , JSON.stringify(changMovies))
+    // }
    }
 })
 
