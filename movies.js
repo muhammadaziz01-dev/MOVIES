@@ -205,7 +205,7 @@ function renderAllMoves(data , tagWrapper) {
                   <h2>${el.title.length > 20 ? el.title.substring(0,15)+"..." : el.title}</h2>
                   <ul>
                       <li><strong>Year:</strong> ${el.year}</li>
-                      <li><strong>Categories:</strong>${el.category.length > 3 ?el.category[1]+ ', ' + el.category[2] + " ," + el.category[3]: el.category }</li>
+                      <li><strong>Categories:</strong>${el.category.length > 3 ?el.category[1]+ ', ' + el.category[2]: el.category }</li>
                       <li><strong>Rating:</strong>${el.rating}</li>
                       <li><strong>Language:</strong>${el.language}</li>
                   </ul>
